@@ -1,0 +1,20 @@
+{
+  "name": "project-iwaca",
+  "homepage": "https://github.com/antonrufino/project-iwaca",
+  "authors": [
+    "Anton Rufino",
+    "Joan Angeles",
+    "Christian Escoto"
+  ],
+  "description": "The LOLCODE Interpreter Without A Cool Acronym",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
