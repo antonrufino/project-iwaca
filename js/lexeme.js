@@ -15,5 +15,6 @@ export const lexemeRegEx = [
     {token: "WON_OF" tokenRegEx: /WON OF/, classification: 'Binary logical XOR operator'},
     {token: "ALL_OF" tokenRegEx: /ALL OF/, classification: 'Infinite arity AND'},
     {token: "ANY_OF" tokenRegEx: /ANY OF/, classification: 'Infinite arity OR'},
-    {token: "FAIL" tokenRegEx: /FAIL/, classification: 'Logical NOT operator'},
+    {token: "SMOOSH" tokenRegEx: /SMOOSH/, classification: 'String concatenation operator'},
+    {token: "MKAY" tokenRegEx: /FAIL/, classification: 'Operation delimiter'},
 ]
