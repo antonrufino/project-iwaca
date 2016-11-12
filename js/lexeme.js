@@ -40,5 +40,7 @@ export const lexemeRegEx = [
     {token: "MOD_OF", tokenRegEx: /MOD OF/, classification: 'Modulo operator'},
     {token: "BIGGR_OF", tokenRegEx: /BIGGR OF/, classification: 'Maximum operator'},
     {token: "SMALLR_OF", tokenRegEx: /SMALLR OF/, classification: 'Minimum operator'},
-    {token: "AN", tokenRegEx: /AN/, classification: 'Expression delimiter'},
+    {token: "STRING_LITERAL", tokenRegEx: /(")(.)(")/, classification: ['', 'String delimiter', 'String literal', 'String delimiter']},
+    {token: "INTEGER_LITERAL", tokenRegEx: /(-?\d+)\s/, classification: ['', 'Integer literal']},
+    {token: "AN", tokenRegEx: /(-?(?:\d*)?\.\d+)\s/, classification: ['', 'Floating point literal']},
 ]
