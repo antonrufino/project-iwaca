@@ -1,13 +1,19 @@
-export const lexemeRegEx = {
-    HAI: {tokenRegEx: /HAI/, classification: 'Code delimiter'}},
-    KTHXBYE: {tokenRegEx: /KTHXBYE/, classification: 'Code delimiter'}},
-    NEW_LINE: {tokenRegEx: /\n/, classification: 'Statement delimiter'}},
-    I_HAS_A: {tokenRegEx: /I HAS A/, classification: 'Variable declaration delimiter'}},
-    ITZ: {tokenRegEx: /ITZ/, classification: 'Variable initialization'}},
-    R: {tokenRegEx: /R/, classification: 'Variable assignment'}},
-    BTW: {tokenRegEx: /BTW/, classification: 'Comment delimiter'}},
-    VISIBLE: {tokenRegEx: /VISIBLE/, classification: 'Output keyword'}},
-    GIMMEH: {tokenRegEx: /GIMMEH/, classification: 'Input keyword'}},
-    WIN: {tokenRegEx: /WIN/, classification: 'TROOF literal'}},
-    FAIL: {tokenRegEx: /FAIL/, classification: 'TROOF literal'}}
-}
+export const lexemeRegEx = [
+    {token: "HAI": tokenRegEx: /HAI/, classification: 'Code delimiter'},
+    {token: "KTHXBYE": {tokenRegEx: /KTHXBYE/, classification: 'Code delimiter'},
+    {token: "NEW_LINE": {tokenRegEx: /\n/, classification: 'Statement delimiter'},
+    {token: "I_HAS_A": {tokenRegEx: /I HAS A/, classification: 'Variable declaration delimiter'},
+    {token: "ITZ": {tokenRegEx: /ITZ/, classification: 'Variable initialization'},
+    {token: "R": {tokenRegEx: /R/, classification: 'Variable assignment'},
+    {token: "BTW": {tokenRegEx: /BTW/, classification: 'Comment delimiter'}},
+    {token: "VISIBLE": {tokenRegEx: /VISIBLE/, classification: 'Output keyword'},
+    {token: "GIMMEH": {tokenRegEx: /GIMMEH/, classification: 'Input keyword'}},
+    {token: "WIN": {tokenRegEx: /WIN/, classification: 'TROOF literal'}},
+    {token: "FAIL": {tokenRegEx: /FAIL/, classification: 'TROOF literal'}},
+    {token: "BOTH_OF": {tokenRegEx: /BOTH OF/, classification: 'Binary logical AND operator'},
+    {token: "EITHER_OF": {tokenRegEx: /EITHER OF/, classification: 'Binary logical OR operator'},
+    {token: "WON_OF": {tokenRegEx: /WON OF/, classification: 'Binary logical XOR operator'},
+    {token: "ALL_OF": {tokenRegEx: /ALL OF/, classification: 'Infinite arity AND'},
+    {token: "FAIL": {tokenRegEx: /FAIL/, classification: 'TROOF literal'},
+    {token: "FAIL": {tokenRegEx: /FAIL/, classification: 'Logical NOT operator'},
+]
