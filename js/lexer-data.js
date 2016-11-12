@@ -1,3 +1,5 @@
+'use strict';
+
 export const lexerData = [
     {token: "HAI", tokenRegEx: /HAI/, classification: 'Code delimiter'},
     {token: "KTHXBYE", tokenRegEx: /KTHXBYE/, classification: 'Code delimiter'},
