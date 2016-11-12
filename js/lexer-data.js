@@ -1,6 +1,7 @@
 const lexerData = [
     {tokenType: 'HAI', tokenRegEx: /HAI/g, classification: 'Code delimiter'},
     {tokenType: 'KTHXBYE', tokenRegEx: /KTHXBYE/g, classification: 'Code delimiter'},
+    {tokenType: 'IT', tokenRegEx: /IT/g, classification: 'Implicit variable'},
     {tokenType: 'NEW_LINE', tokenRegEx: /\n/g, classification: 'Statement delimiter'},
     {tokenType: 'I_HAS_A', tokenRegEx: /I HAS A/g, classification: 'Variable declaration delimiter'},
     {tokenType: 'ITZ', tokenRegEx: /ITZ/g, classification: 'Variable initialization'},
