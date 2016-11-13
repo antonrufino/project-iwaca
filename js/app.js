@@ -5,9 +5,20 @@
 
     app.controller('LexerController', ['$scope', ($scope) => {
         $scope.lexemes = [];
-        $scope.sourceCode = '"hello", "world"';
+        $scope.sourceCode = '';
+        $scope.openFile = () => {
+            console.log("tezr")
+
+            let f = document.getElementById('file').files[0],
+            r = new FileReader();
+            r.onloadend = function(e){
+                $scope.sourceCode = e.target.result;
+            }
+            r.readAsBinaryString(f);
+        }
         $scope.analyze = () => {
             $scope.lexemes = [];
+            console.log($scope.sourceCode)
 
             for (let line of $scope.sourceCode.split("\n")) {
                 for (let pattern of lexerData) {
