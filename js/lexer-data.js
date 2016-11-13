@@ -4,14 +4,12 @@ const lexerData = [
     {tokenType: 'SINGLE_LINE_COMMENT', tokenRegEx: /(BTW) ([^\n]*)/g, classification: ['', 'Comment delimiter', 'Comment text']},
     {tokenType: 'MULTI_LINE_COMMENT', tokenRegEx: /(OBTW) (.*) (TLDR)/g, classification: ['', 'Comment delimiter', 'Comment text', 'Comment delimiter']},
     {tokenType: 'STRING_LITERAL', tokenRegEx: /(")([^"]*)(")/g, classification: ['', 'String delimiter', 'String literal', 'String delimiter']},
-    {tokenType: 'FLOATING_POINT_LITERAL', tokenRegEx: /(-?(?:\d*)?\.\d+)\s/g, classification: ['', 'Floating point literal']},
-    {tokenType: 'INTEGER_LITERAL', tokenRegEx: /(-?\d+)/g, classification: ['', 'Integer literal']},
     {tokenType: 'NEW_LINE', tokenRegEx: /\n/g, classification: 'Statement delimiter'},
     {tokenType: 'I_HAS_A', tokenRegEx: /I HAS A/g, classification: 'Variable declaration delimiter'},
     {tokenType: 'ITZ', tokenRegEx: /ITZ/g, classification: 'Variable initialization'},
     {tokenType: 'IT', tokenRegEx: /IT/g, classification: 'Implicit variable'},
     {tokenType: 'VISIBLE', tokenRegEx: /VISIBLE/g, classification: 'Output keyword'},
-    {tokenType: 'GIMMEH', tokenRegEx: /IMMEH/g, classification: 'Input keyword'},
+    {tokenType: 'GIMMEH', tokenRegEx: /GIMMEH/g, classification: 'Input keyword'},
     {tokenType: 'WIN', tokenRegEx: /WIN/g, classification: 'TROOF literal'},
     {tokenType: 'FAIL', tokenRegEx: /FAIL/g, classification: 'TROOF literal'},
     {tokenType: 'BOTH_OF', tokenRegEx: /BOTH OF/g, classification: 'Binary logical AND operator'},
@@ -43,6 +41,8 @@ const lexerData = [
     {tokenType: 'BIGGR_OF', tokenRegEx: /BIGGR OF/g, classification: 'Maximum operator'},
     {tokenType: 'SMALLR_OF', tokenRegEx: /SMALLR OF/g, classification: 'Minimum operator'},
     {tokenType: 'AN', tokenRegEx: /AN/g, classification: 'Operand delimiter'},
-    {tokenType: 'R', tokenRegEx: /R/g, classification: 'Variable assignment'},
-    {tokenType: 'IDENTIFIER', tokenRegEx: /[A-Za-z]\w*/g, classification: 'Identifier'}
+    {tokenType: 'R', tokenRegEx: / R /g, classification: 'Variable assignment'},
+    {tokenType: 'IDENTIFIER', tokenRegEx: /[A-Za-z]\w*/g, classification: 'Identifier'},
+    {tokenType: 'INTEGER_LITERAL', tokenRegEx: /(-?\d+)/g, classification: ['', 'Integer literal']},
+    {tokenType: 'FLOATING_POINT_LITERAL', tokenRegEx: /(-?(?:\d*)?\.\d+)/g, classification: ['', 'Floating point literal']}
 ];
