@@ -7,25 +7,30 @@
         $scope.lexemes = [];
         $scope.sourceCode = '"hello", "world"';
         $scope.analyze = () => {
+            let sourceCode = $scope.sourceCode;
+
+            $scope.lexemes = [];
             for (let pattern of lexerData) {
                 let re = pattern.tokenRegEx;
                 let match;
 
-                while (match = re.exec($scope.sourceCode)) {
+                while (match = re.exec(sourceCode)) {
                     if (match.length > 1) {
                         for (let i = 1; i < match.length; ++i) {
                             $scope.lexemes.push({
-                                tokenType: match[i],
+                                token: match[i],
                                 classification: pattern.classification[i]
                             });
                         }
                     } else {
                         $scope.lexemes.push({
-                            tokenType: match[0],
+                            token: match[0],
                             classification: pattern.classification
                         });
                     }
                 }
+
+                sourceCode = sourceCode.replace(re, '');
             }
 
             console.log($scope.lexemes);
