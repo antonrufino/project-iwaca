@@ -8,33 +8,35 @@
         $scope.sourceCode = '';
         $scope.analyze = () => {
             $scope.lexemes = [];
-            console.log($scope.sourceCode)
 
-            for (let line of $scope.sourceCode.split("\n")) {
+            let sourceCode = $scope.sourceCode
+            while (sourceCode != '') {
                 for (let pattern of lexerData) {
                     let re = pattern.tokenRegEx;
-                    let match;
+                    let match = re.exec(sourceCode);
 
-                    while (match = re.exec(line + '\n')) {
-                        if (match.length > 1) {
-                            for (let i = 1; i < match.length; ++i) {
-                                $scope.lexemes.push({
-                                    token: match[i],
-                                    classification: pattern.classification[i]
-                                });
-                            }
-                        } else {
+                    if (match === null) continue;
+
+                    if (match.length > 1) {
+                        for (let i = 1; i < match.length; ++i) {
                             $scope.lexemes.push({
-                                token: match[0],
-                                classification: pattern.classification
+                                token: match[i],
+                                classification: pattern.classification[i]
                             });
                         }
+                    } else {
+                        $scope.lexemes.push({
+                            token: match[0],
+                            classification: pattern.classification
+                        });
                     }
 
-                    line = line.replace(re, '');
+                    sourceCode = sourceCode.replace(re, '');
+                    sourceCode = sourceCode.trim();
+
+                    break;
                 }
             }
-            console.log($scope.lexemes)
         }
     }]);
 })();
