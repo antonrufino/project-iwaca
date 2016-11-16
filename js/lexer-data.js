@@ -44,5 +44,6 @@ const lexerData = [
     {tokenType: 'R', tokenRegEx: /^R/g, classification: 'Variable assignment'},
     {tokenType: 'IDENTIFIER', tokenRegEx: /^[A-Za-z]\w*/g, classification: 'Identifier'},
     {tokenType: 'FLOATING_POINT_LITERAL', tokenRegEx: /^(-?(?:\d*)?\.\d+)/g, classification: ['', 'Floating point literal']},
-    {tokenType: 'INTEGER_LITERAL', tokenRegEx: /^(-?\d+)/g, classification: ['', 'Integer literal']}
+    {tokenType: 'INTEGER_LITERAL', tokenRegEx: /^(-?\d+)/g, classification: ['', 'Integer literal']},
+    {tokenType: 'INVALID', tokenRegEx: /^[^\s]+\s+/, classification: 'Invalid token'}
 ];
