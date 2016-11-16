@@ -8,8 +8,8 @@
             $scope.symbolTable
             $scope.sourceCode = '';
             $scope.interpret = () => {
-                lexer($scope.sourceCode, $scope.lexemeTable).analyze();
-                parser($scope.lexemeTable, $scope.symbolTable).analyze();
+                lexer($scope.sourceCode, $scope.lexemeTable);
+                parser($scope.lexemeTable, $scope.symbolTable);
             }
         }
     ]);

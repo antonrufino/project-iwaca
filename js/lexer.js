@@ -4,44 +4,37 @@
     angular.module('app')
     .factory('lexer', () => {
         return (sourceCode, lexemeTable) => {
-            let lexer = {}
+            lexemeTable.length = 0;
 
-            lexer.analyze = () => {
-                lexemeTable.length = 0;
-                console.log(lexemeTable);
+            while (sourceCode != '') {
+                for (let pattern of lexerData) {
+                    let re = pattern.tokenRegEx;
+                    let match = re.exec(sourceCode);
 
-                while (sourceCode != '') {
-                    for (let pattern of lexerData) {
-                        let re = pattern.tokenRegEx;
-                        let match = re.exec(sourceCode);
+                    if (match === null) continue;
 
-                        if (match === null) continue;
-
-                        if (match.length > 1) {
-                            for (let i = 1; i < match.length; ++i) {
-                                lexemeTable.push({
-                                    tokenType: pattern.tokenType,
-                                    token: match[i],
-                                    classification: pattern.classification[i]
-                                });
-                            }
-                        } else {
+                    if (match.length > 1) {
+                        for (let i = 1; i < match.length; ++i) {
                             lexemeTable.push({
                                 tokenType: pattern.tokenType,
-                                token: match[0],
-                                classification: pattern.classification
+                                token: match[i],
+                                classification: pattern.classification[i]
                             });
                         }
-
-                        sourceCode = sourceCode.replace(re, '');
-                        sourceCode = sourceCode.trim();
-
-                        break;
+                    } else {
+                        lexemeTable.push({
+                            tokenType: pattern.tokenType,
+                            token: match[0],
+                            classification: pattern.classification
+                        });
                     }
+
+                    sourceCode = sourceCode.replace(re, '');
+                    sourceCode = sourceCode.trim();
+
+                    break;
                 }
             }
-
-            return lexer;
         }
     });
 })();
