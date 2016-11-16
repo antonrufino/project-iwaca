@@ -20,12 +20,14 @@
                     if (match.length > 1) {
                         for (let i = 1; i < match.length; ++i) {
                             $scope.lexemes.push({
+                                tokenType: pattern.tokenType,
                                 token: match[i],
                                 classification: pattern.classification[i]
                             });
                         }
                     } else {
                         $scope.lexemes.push({
+                            tokenType: pattern.tokenType,
                             token: match[0],
                             classification: pattern.classification
                         });
@@ -37,6 +39,8 @@
                     break;
                 }
             }
+
+            console.log($scope.lexemes[0]['tokenType']);
         }
     }]);
 })();
