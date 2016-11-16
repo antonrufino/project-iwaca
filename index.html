@@ -76,7 +76,7 @@
     </style>
 </head>
 
-<body ng-controller="LexerController">
+<body ng-controller="InterpreterController">
     <div class="container col s12">
         <div class="row">
             <nav class="red darken-3">
@@ -105,7 +105,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="lexeme in lexemes">
+                                <tr ng-repeat="lexeme in lexemeTable">
                                     <td>{{lexeme.token}}</td>
                                     <td>{{lexeme.classification}}</td>
                                 </tr>
@@ -152,6 +152,7 @@
     <script src="js/app.js"></script>
     <script src="js/lexer-data.js"></script>
     <script src="js/lexer.js"></script>
+    <script src="js/parser.js"></script>
 
     <script src="js/fileio.js"></script>
 

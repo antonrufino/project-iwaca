@@ -2,11 +2,15 @@
 
 (() => {
     angular.module('app', [])
-    .controller('LexerController', ['$scope', 'lexer', ($scope, lexer) => {
-        $scope.lexemes = [];
-        $scope.sourceCode = '';
-        $scope.interpret = () => {
-            lexer($scope.sourceCode, $scope.lexemes).analyze();
+    .controller('InterpreterController', ['$scope', 'lexer', 'parser',
+        ($scope, lexer, parser) => {
+            $scope.lexemeTable = [];
+            $scope.symbolTable
+            $scope.sourceCode = '';
+            $scope.interpret = () => {
+                lexer($scope.sourceCode, $scope.lexemeTable).analyze();
+                parser($scope.lexemeTable, $scope.symbolTable).analyze();
+            }
         }
-    }]);
+    ]);
 })();
