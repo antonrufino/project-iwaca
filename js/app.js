@@ -1,9 +1,8 @@
 'use strict';
 
 (() => {
-    let app = angular.module('app', []);
-
-    app.controller('LexerController', ['$scope', ($scope) => {
+    angular.module('app', [])
+    .controller('LexerController', ['$scope', ($scope) => {
         $scope.lexemes = [];
         $scope.sourceCode = '';
         $scope.analyze = () => {
@@ -39,8 +38,6 @@
                     break;
                 }
             }
-
-            console.log($scope.lexemes[0]['tokenType']);
         }
     }]);
 })();
