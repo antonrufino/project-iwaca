@@ -2,42 +2,11 @@
 
 (() => {
     angular.module('app', [])
-    .controller('LexerController', ['$scope', ($scope) => {
+    .controller('LexerController', ['$scope', 'lexer', ($scope, lexer) => {
         $scope.lexemes = [];
         $scope.sourceCode = '';
-        $scope.analyze = () => {
-            $scope.lexemes = [];
-
-            let sourceCode = $scope.sourceCode
-            while (sourceCode != '') {
-                for (let pattern of lexerData) {
-                    let re = pattern.tokenRegEx;
-                    let match = re.exec(sourceCode);
-
-                    if (match === null) continue;
-
-                    if (match.length > 1) {
-                        for (let i = 1; i < match.length; ++i) {
-                            $scope.lexemes.push({
-                                tokenType: pattern.tokenType,
-                                token: match[i],
-                                classification: pattern.classification[i]
-                            });
-                        }
-                    } else {
-                        $scope.lexemes.push({
-                            tokenType: pattern.tokenType,
-                            token: match[0],
-                            classification: pattern.classification
-                        });
-                    }
-
-                    sourceCode = sourceCode.replace(re, '');
-                    sourceCode = sourceCode.trim();
-
-                    break;
-                }
-            }
+        $scope.interpret = () => {
+            lexer($scope.sourceCode, $scope.lexemes).analyze();
         }
     }]);
 })();
