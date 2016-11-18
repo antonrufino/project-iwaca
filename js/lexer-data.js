@@ -33,7 +33,7 @@ const lexerData = [
     {tokenType: 'NUMBAR', tokenRegEx: /^NUMBAR/g, classification: 'Float variable type'},
     {tokenType: 'TROOF', tokenRegEx: /^TROOF/g, classification: 'Boolean variable type'},
     {tokenType: 'NOOB', tokenRegEx: /^NOOB/g, classification: 'Untyped variable type'},
-    {tokenType: 'ARITHMETIC_OPERATOR', tokenRegEx: /^(?:SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF| MOD OF)/g, classification: 'Arithmetic operator'},
+    {tokenType: 'ARITHMETIC_OPERATOR', tokenRegEx: /^(?:SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF)/g, classification: 'Arithmetic operator'},
     {tokenType: 'BIGGR_OF', tokenRegEx: /^BIGGR OF/g, classification: 'Maximum operator'},
     {tokenType: 'SMALLR_OF', tokenRegEx: /^SMALLR OF/g, classification: 'Minimum operator'},
     {tokenType: 'AN', tokenRegEx: /^AN/g, classification: 'Operand delimiter'},

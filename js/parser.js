@@ -21,8 +21,6 @@
                     // TODO: error
                 }
 
-                console.log(expr);
-
                 i += 1
             }
 
@@ -54,6 +52,7 @@
                     let op1 = stack.pop();
                     let op2 = stack.pop();
 
+                    console.log(op1 % op2);
                     stack.push(op1 % op2);
                 } else if (typeof e === 'number') {
                     stack.push(e);
