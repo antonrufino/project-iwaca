@@ -8,6 +8,9 @@
             $scope.symbolTable = {}
             $scope.sourceCode = '';
             $scope.interpret = () => {
+                $scope.lexemeTable = [];
+                $scope.symbolTable = {};
+
                 lexer($scope.sourceCode, $scope.lexemeTable);
                 parser($scope.lexemeTable, $scope.symbolTable);
             }

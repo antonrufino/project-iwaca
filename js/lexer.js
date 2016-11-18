@@ -4,8 +4,6 @@
     angular.module('app')
     .factory('lexer', () => {
         return (sourceCode, lexemeTable) => {
-            lexemeTable.length = 0;
-
             while (sourceCode != '') {
                 for (let pattern of lexerData) {
                     let re = pattern.tokenRegEx;
