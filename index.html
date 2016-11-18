@@ -121,17 +121,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Data</td>
-                                    <td>Data</td>
-                                </tr>
-                                <tr>
-                                    <td>Data</td>
-                                    <td>Data</td>
-                                </tr>
-                                <tr>
-                                    <td>Data</td>
-                                    <td>Data</td>
+                                <tr ng-repeat="(identifier, value) in symbolTable">
+                                    <td>{{identifier}}</td>
+                                    <td>{{value.value}}</td>
                                 </tr>
                             </tbody>
                         </table>
