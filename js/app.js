@@ -5,8 +5,9 @@
     .controller('InterpreterController', ['$scope', 'lexer', 'parser',
         ($scope, lexer, parser) => {
             $scope.lexemeTable = [];
-            $scope.symbolTable = {}
+            $scope.symbolTable = {};
             $scope.sourceCode = '';
+            
             $scope.interpret = () => {
                 $scope.lexemeTable = [];
                 $scope.symbolTable = {};
