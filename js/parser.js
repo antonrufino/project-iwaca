@@ -4,7 +4,9 @@
         function arithmetic(lexemeTable, symbolTable, i) {
             let expr = [];
 
-            while (true) {
+            while (i < lexemeTable.length) {
+                console.log(i);
+                console.log(lexemeTable[i]);
                 if (lexemeTable[i].tokenType === 'INTEGER_LITERAL') {
                     expr.push(parseInt(lexemeTable[i].token));
                     if (i + 1 >= lexemeTable.length ||
@@ -16,9 +18,22 @@
                 } else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
                     expr.push(lexemeTable[i].token);
                 } else if (lexemeTable[i].tokenType === 'AN') {
-                    expr.push(lexemeTable[i].token);
+                    i += 1;
+                    continue;
+                } else if (lexemeTable[i].tokenType === 'IDENTIFIER') {
+                    let descriptor = symbolTable[lexemeTable[i].token];
+
+                    if (descriptor !== undefined) expr.push(descriptor.value);
+                    else {
+                        //TODO: error;
+                        return -1;
+                    }
+
+                    if (i + 1 >= lexemeTable.length ||
+                        lexemeTable[i + 1].tokenType !== 'AN') break;
                 } else {
                     // TODO: error
+                    return -1;
                 }
 
                 i += 1
@@ -58,11 +73,14 @@
                     stack.push(e);
                 } else {
                     // TODO: error
+                    console.log(e);
+                    return -1;
                 }
             }
 
             if (stack.length !== 1) {
                 // TODO: error
+                return -1;
             } else {
                 symbolTable['IT'] = {value: stack.pop(), dataType: 'kek'};
             }
@@ -81,13 +99,15 @@
         function initialize(lexemeTable, symbolTable, index) {
             if(lexemeTable[index+1].tokenType==='IDENTIFIER'){
                 if(lexemeTable[index+2].tokenType==='ITZ'){
-                    if(lexemeTable[index+3].tokenType==='INTEGER_LITERAL' || lexemeTable[index+3].tokenType==='FLOATING_POINT_LITERAL' || lexemeTable[index+3].tokenType==='WIN' || lexemeTable[index+3].tokenType==='FAIL'){
-                         symbolTable[lexemeTable[index+1].token] = { value: lexemeTable[index+3].token, dataType: lexemeTable[index+3].tokenType};
-                    }
-                    if(lexemeTable[index+3].tokenType==='STRING_LITERAL'){
+                    if(lexemeTable[index+3].tokenType==='INTEGER_LITERAL'){
+                        symbolTable[lexemeTable[index+1].token] = { value: parseInt(lexemeTable[index+3].token), dataType: lexemeTable[index+3].tokenType};
+                    } else if (lexemeTable[index+3].tokenType==='FLOATING_POINT_LITERAL') {
+                        symbolTable[lexemeTable[index+1].token] = { value: parseFloat(lexemeTable[index+3].token), dataType: lexemeTable[index+3].tokenType};
+                    } else if(lexemeTable[index+3].tokenType==='STRING_LITERAL'){
                         symbolTable[lexemeTable[index+1].token] = { value: lexemeTable[index+3].token + lexemeTable[index+4].token + lexemeTable[index+3].token, dataType: lexemeTable[index+4].tokenType};
-                    }
-                    if(lexemeTable[index+3].tokenType==='IDENTIFIER'){
+                    } else if (lexemeTable[index+3].tokenType==='WIN' || lexemeTable[index+3].tokenType==='FAIL') {
+                        symbolTable[lexemeTable[index+1].token] = { value: lexemeTable[index+3].token, dataType: lexemeTable[index+3].tokenType};
+                    } else if(lexemeTable[index+3].tokenType==='IDENTIFIER'){
                         if(symbolTable[lexemeTable[index+3].token] !== undefined){
                             symbolTable[lexemeTable[index+1].token] = { value: symbolTable[lexemeTable[index+3].token].value, dataType: symbolTable[lexemeTable[index+3].dataType]};
                         }
@@ -108,6 +128,8 @@
             while (i < lexemeTable.length) {
                 if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
                     i = arithmetic(lexemeTable, symbolTable, i);
+                    console.log(i);
+                    if (i < 0) break;
                 } else if (lexemeTable[i].tokenType === 'I_HAS_A') {
                     initialize(lexemeTable, symbolTable, i);
                 }
