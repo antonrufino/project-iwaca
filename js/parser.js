@@ -80,6 +80,7 @@
                 return -1;
             } else {
                 symbolTable['IT'] = {value: stack.pop(), dataType: 'kek'};
+                console.log(symbolTable['IT']);
             }
 
             return i;

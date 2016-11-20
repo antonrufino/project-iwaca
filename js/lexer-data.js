@@ -7,7 +7,7 @@ const lexerData = [
     {tokenType: 'NEW_LINE', tokenRegEx: /^\n/g, classification: 'Statement delimiter'},
     {tokenType: 'I_HAS_A', tokenRegEx: /^I HAS A/g, classification: 'Variable declaration delimiter'},
     {tokenType: 'ITZ', tokenRegEx: /^ITZ/g, classification: 'Variable initialization'},
-    {tokenType: 'IT', tokenRegEx: /^IT/g, classification: 'Implicit variable'},
+    {tokenType: 'IDENTIFIER', tokenRegEx: /^IT/g, classification: 'Implicit variable'},
     {tokenType: 'VISIBLE', tokenRegEx: /^VISIBLE/g, classification: 'Output keyword'},
     {tokenType: 'GIMMEH', tokenRegEx: /^GIMMEH/g, classification: 'Input keyword'},
     {tokenType: 'WIN', tokenRegEx: /^WIN/g, classification: 'TROOF literal'},
@@ -39,7 +39,7 @@ const lexerData = [
     {tokenType: 'AN', tokenRegEx: /^AN/g, classification: 'Operand delimiter'},
     {tokenType: 'R', tokenRegEx: /^R/g, classification: 'Variable assignment'},
     {tokenType: 'IDENTIFIER', tokenRegEx: /^[A-Za-z]\w*/g, classification: 'Identifier'},
-    {tokenType: 'FLOATING_POINT_LITERAL', tokenRegEx: /^(-?(?:\d*)?\.\d+)/g, classification: ['', 'Floating point literal']},
-    {tokenType: 'INTEGER_LITERAL', tokenRegEx: /^(-?\d+)/g, classification: ['', 'Integer literal']},
+    {tokenType: ['', 'FLOATING_POINT_LITERAL'], tokenRegEx: /^(-?(?:\d*)?\.\d+)/g, classification: ['', 'Floating point literal']},
+    {tokenType: ['', 'INTEGER_LITERAL'], tokenRegEx: /^(-?\d+)/g, classification: ['', 'Integer literal']},
     {tokenType: 'INVALID', tokenRegEx: /^[^\s]+/, classification: 'Invalid token'}
 ];
