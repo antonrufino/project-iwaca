@@ -14,7 +14,7 @@
                     if (match.length > 1) {
                         for (let i = 1; i < match.length; ++i) {
                             lexemeTable.push({
-                                tokenType: pattern.tokenType,
+                                tokenType: pattern.tokenType[i],
                                 token: match[i],
                                 classification: pattern.classification[i]
                             });
