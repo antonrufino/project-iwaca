@@ -86,14 +86,6 @@
             return i;
         }
 
-        function gimmeh(symbolTable) {
-
-        }
-
-        function assign(symbolTable) {
-
-        }
-
         function initialize(lexemeTable, symbolTable, index) {
             if(lexemeTable[index+1].tokenType==='IDENTIFIER'){
                 if(lexemeTable[index+2].tokenType==='ITZ'){
@@ -203,8 +195,22 @@
             }
         }
 
-        return (lexemeTable, symbolTable) => {
-            for (let i = 0; i < lexemeTable.length; i++) {
+        function gimmeh(lexemeTable, symbolTable, index) {
+            if (lexemeTable[index].tokenType==="GIMMEH" && lexemeTable[index+1].tokenType==="IDENTIFIER") {
+                if (symbolTable[lexemeTable[index+1].token] !== undefined) {
+                    return {pendingVar: lexemeTable[index+1].token, index: index+2};
+                } else {
+                    // TODO: error
+                    return {pendingVar: null, index: -1};
+                }
+            }
+
+            // TODO: error
+            return {pendingVar: null, index: -1};
+        }
+
+        return (lexemeTable, symbolTable, start) => {
+            for (let i = start; i < lexemeTable.length; i++) {
                 if (lexemeTable[i].tokenType === 'I_HAS_A') {
                     i = initialize(lexemeTable, symbolTable, i);
                 }
@@ -214,12 +220,23 @@
                 else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
                     i = arithmetic(lexemeTable, symbolTable, i);
                 }
+                else if (lexemeTable[i].tokenType === 'GIMMEH') {
+                    let result = gimmeh(lexemeTable, symbolTable, i);
+
+                    if (result.index !== -1) {
+                        $('#input').attr('disabled', false);
+                        $('#enter').attr('disabled', false);
+                        return result;
+                    }
+                }
 
                 if (i === -1) {
                     console.log('ERROR!');
                     break;
                 }
             }
+
+            return null;
         }
     });
 })();
