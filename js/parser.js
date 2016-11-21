@@ -178,6 +178,31 @@
             }
         }
 
+        // Sobra kulang pa nito. Identifier lang prinaprocess.
+        function visible(lexemeTable, symbolTable, terminal) {
+            if(lexemeTable[index].tokenType==='VISIBLE'){
+                if(lexemeTable[index+1].tokenType==='IDENTIFIER'){
+                    terminal = { value: symbolTable[lexemeTable[index+1].token]}
+                }
+            }
+        }
+
+        function assign(lexemeTable, symbolTable, index) {
+             if(lexemeTable[index].tokenType==='IDENTIFIER'){
+                if(lexemeTable[index+1].tokenType==='R'){
+                    if(lexemeTable[index+2].tokenType==='INTEGER_LITERAL'){
+                        symbolTable[lexemeTable[index].token] = { value: parseInt(lexemeTable[index+2].token), dataType: lexemeTable[index+2].tokenType};
+                    } else if (lexemeTable[index+2].tokenType==='FLOATING_POINT_LITERAL') {
+                        symbolTable[lexemeTable[index].token] = { value: parseFloat(lexemeTable[index+2].token), dataType: lexemeTable[index+2].tokenType};
+                    } else if(lexemeTable[index+2].tokenType==='STRING_LITERAL'){
+                        symbolTable[lexemeTable[index].token] = { value: lexemeTable[index+2].token + lexemeTable[index+3].token + lexemeTable[index+3].token, dataType: lexemeTable[index+3].tokenType};
+                    } else if (lexemeTable[index+2].tokenType==='WIN' || lexemeTable[index+2].tokenType==='FAIL') {
+                        symbolTable[lexemeTable[index].token] = { value: lexemeTable[index+2].token, dataType: lexemeTable[index+2].tokenType};
+                    }
+                }
+            }
+        }
+
         return (lexemeTable, symbolTable) => {
             for (let i = 0; i < lexemeTable.length; i++) {
                 if (lexemeTable[i].tokenType === 'I_HAS_A') {
