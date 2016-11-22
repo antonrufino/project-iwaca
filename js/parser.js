@@ -24,14 +24,15 @@
                     if (descriptor !== undefined) expr.push(descriptor.value);
                     else {
                         //TODO: error;
-                        return -1;
+                        return {value: null, index: -1};
                     }
 
                     if (i + 1 >= lexemeTable.length ||
                         lexemeTable[i + 1].tokenType !== 'AN') break;
                 } else {
                     // TODO: error
-                    return -1;
+                    console.log("Invalid token");
+                    return {value: null, index: -1};
                 }
 
                 i += 1
@@ -70,20 +71,18 @@
                     stack.push(e);
                 } else {
                     // TODO: error
-                    console.log(e);
-                    return -1;
+                    console.log("Inappropriate operand");
+                    return {value: null, index: -1};
                 }
             }
 
             if (stack.length !== 1) {
                 // TODO: error
-                return -1;
-            } else {
-                symbolTable['IT'] = {value: stack.pop(), dataType: 'kek'};
-                console.log(symbolTable['IT']);
+                console.log("Not enough operands");
+                return {value: null, index: -1};
             }
 
-            return i;
+            return {value: stack.pop(), index: i};
         }
 
         function initialize(lexemeTable, symbolTable, index) {
@@ -102,9 +101,10 @@
                             symbolTable[lexemeTable[index+1].token] = { value: symbolTable[lexemeTable[index+3].token].value, dataType: symbolTable[lexemeTable[index+3].dataType]};
                         }
                     } else if (lexemeTable[index+3].tokenType==='ARITHMETIC_OPERATOR') {
-                        let newIndex = arithmetic(lexemeTable, symbolTable, index+3);
+                        let result = arithmetic(lexemeTable, symbolTable, index+3);
+                        let newIndex = result.index;
                         if (newIndex!==-1) {
-                            symbolTable[lexemeTable[index+1].token] = { value: symbolTable['IT'].value, dataType: symbolTable[lexemeTable[index+3].dataType]};
+                            symbolTable[lexemeTable[index+1].token] = { value: result.value, dataType: symbolTable[lexemeTable[index+3].dataType]};
                             return newIndex;
                         } else {
                             // TODO: error
@@ -165,7 +165,7 @@
                     }
                 }
                 else {
-                    break;
+                    return -1;
                 }
             }
         }
@@ -186,6 +186,14 @@
             }
             else if (lexemeTable[index+1].tokenType==='WIN' || lexemeTable[index+1].tokenType==='FAIL' ) {
                 $scope.terminal = $scope.terminal + lexemeTable[index+1].token + '\n';
+            } else if (lexemeTable[index+1].tokenType==='ARITHMETIC_OPERATOR') {
+                result =  arithmetic(lexemeTable, symbolTable, index+1);
+                $scope.terminal = $scope.terminal + result.value + '\n';
+                return index;
+            } else if (lexemeTable[index+1].tokenType==='SMOOSH') {
+                index = smoosh(lexemeTable, symbolTable, index+1);
+                $scope.terminal = $scope.terminal + symbolTable['IT'].value + '\n';
+                return index;
             }
 
             return index + 1
@@ -230,11 +238,16 @@
                     i = smoosh(lexemeTable, symbolTable, i);
                 }
                 else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
-                    i = arithmetic(lexemeTable, symbolTable, i);
+                    let result = arithmetic(lexemeTable, symbolTable, i);
+
+                    if (result.index !== -1)
+                        symbolTable['IT'] = {value: result.value, dataType: "temp"};
+
+                    i = result.index;
                 }
                 else if (lexemeTable[i].tokenType === 'VISIBLE') {
                     i = visible(lexemeTable, symbolTable, $scope, i);
-                }                
+                }
                 else if (lexemeTable[i].tokenType === 'GIMMEH') {
                     let result = gimmeh(lexemeTable, symbolTable, i);
 
@@ -249,6 +262,8 @@
                     console.log('ERROR!');
                     break;
                 }
+
+                console.log("kkek");
             }
 
             return null;

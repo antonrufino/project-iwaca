@@ -18,6 +18,7 @@
                 $scope.input = '';
                 $scope.index = 0;
                 $scope.pendingVar = '';
+                $scope.terminal = '';
 
                 lexer($scope.sourceCode, $scope.lexemeTable);
                 $scope.interpret();
