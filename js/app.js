@@ -7,6 +7,7 @@
             $scope.lexemeTable = [];
             $scope.symbolTable = {};
             $scope.sourceCode = '';
+            $scope.terminal = '';
             $scope.input = '';
             $scope.index = 0;
             $scope.pendingVar = '';
@@ -24,7 +25,7 @@
 
             $scope.interpret = () => {
                 let result = parser($scope.lexemeTable, $scope.symbolTable,
-                    $scope.index);
+                    $scope.index, $scope);
 
                 if (result !== null) {
                     $scope.pendingVar = result.pendingVar;

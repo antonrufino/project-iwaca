@@ -171,12 +171,24 @@
         }
 
         // Sobra kulang pa nito. Identifier lang prinaprocess.
-        function visible(lexemeTable, symbolTable, terminal) {
-            if(lexemeTable[index].tokenType==='VISIBLE'){
-                if(lexemeTable[index+1].tokenType==='IDENTIFIER'){
-                    terminal = { value: symbolTable[lexemeTable[index+1].token]}
-                }
+        function visible(lexemeTable, symbolTable, $scope, index) {
+            if(lexemeTable[index+1].tokenType==='IDENTIFIER'){
+                $scope.terminal = $scope.terminal + symbolTable[lexemeTable[index+1].token].value + '\n';
             }
+            else if (lexemeTable[index+1].tokenType==='INTEGER_LITERAL') {
+                $scope.terminal = $scope.terminal + lexemeTable[index+1].token + '\n';
+            }
+            else if (lexemeTable[index+1].tokenType==='FLOATING_POINT_LITERAL') {
+                $scope.terminal = $scope.terminal + lexemeTable[index+1].token + '\n';
+            }
+            else if (lexemeTable[index+2].tokenType==='STRING_LITERAL') {
+                $scope.terminal = $scope.terminal + lexemeTable[index+2].token + '\n';
+            }
+            else if (lexemeTable[index+1].tokenType==='WIN' || lexemeTable[index+1].tokenType==='FAIL' ) {
+                $scope.terminal = $scope.terminal + lexemeTable[index+1].token + '\n';
+            }
+
+            return index + 1
         }
 
         function assign(lexemeTable, symbolTable, index) {
@@ -209,7 +221,7 @@
             return {pendingVar: null, index: -1};
         }
 
-        return (lexemeTable, symbolTable, start) => {
+        return (lexemeTable, symbolTable, start, $scope) => {
             for (let i = start; i < lexemeTable.length; i++) {
                 if (lexemeTable[i].tokenType === 'I_HAS_A') {
                     i = initialize(lexemeTable, symbolTable, i);
@@ -220,6 +232,9 @@
                 else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
                     i = arithmetic(lexemeTable, symbolTable, i);
                 }
+                else if (lexemeTable[i].tokenType === 'VISIBLE') {
+                    i = visible(lexemeTable, symbolTable, $scope, i);
+                }                
                 else if (lexemeTable[i].tokenType === 'GIMMEH') {
                     let result = gimmeh(lexemeTable, symbolTable, i);
 
