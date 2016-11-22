@@ -20,7 +20,6 @@
                     continue;
                 } else if (lexemeTable[i].tokenType === 'IDENTIFIER') {
                     let descriptor = symbolTable[lexemeTable[i].token];
-                    console.log(typeof descriptor.value)
 
                     if (descriptor !== undefined) {
                         if (typeof descriptor.value === 'string') {
