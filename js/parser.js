@@ -20,8 +20,25 @@
                     continue;
                 } else if (lexemeTable[i].tokenType === 'IDENTIFIER') {
                     let descriptor = symbolTable[lexemeTable[i].token];
+                    console.log(typeof descriptor.value)
 
-                    if (descriptor !== undefined) expr.push(descriptor.value);
+                    if (descriptor !== undefined) {
+                        if (typeof descriptor.value === 'string') {
+                            let result = parseInt(descriptor.value);
+                            if (result === NaN) {
+                                result = parseFloat(descriptor.value);
+                                if (result === NaN) {
+                                    return {value: null, index: -1};
+                                } else {
+                                    expr.push(result);
+                                }
+                            } else {
+                                expr.push(result);
+                            }
+                        } else {
+                            expr.push(descriptor.value);
+                        }
+                    }
                     else {
                         //TODO: error;
                         return {value: null, index: -1};
@@ -29,6 +46,23 @@
 
                     if (i + 1 >= lexemeTable.length ||
                         lexemeTable[i + 1].tokenType !== 'AN') break;
+                } else if (lexemeTable[i].tokenType === 'STRING_DELIMITER' &&
+                    lexemeTable[i+1].tokenType === 'STRING_LITERAL' ) {
+                    i += 1;
+
+                    let result = parseInt(lexemeTable[i].token);
+                    if (result === NaN) {
+                        result = parseFloat(lexemeTable[i].token);
+                        if (result === NaN) {
+                            return {value: null, index: -1};
+                        } else {
+                            expr.push(result);
+                        }
+                    } else {
+                        expr.push(result);
+                    }
+
+                    i += 1;
                 } else {
                     // TODO: error
                     console.log("Invalid token");
