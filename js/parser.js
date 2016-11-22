@@ -122,7 +122,7 @@
                     }
                 }
                 else {
-                    symbolTable[lexemeTable[i+1].token] =  { value: null, dataType: 'NOOB'};
+                    symbolTable[lexemeTable[index+1].token] =  { value: null, dataType: 'NOOB'};
                 }
             }
 
