@@ -111,9 +111,10 @@
                             return -1;
                         }
                     } else if (lexemeTable[index+3].tokenType==='SMOOSH') {
-                        let newIndex = smoosh(lexemeTable, symbolTable, index+3);
+                        let result = smoosh(lexemeTable, symbolTable, index+3);
+                        let newIndex = result.index;
                         if (newIndex!==-1) {
-                            symbolTable[lexemeTable[index+1].token] = { value: symbolTable['IT'].value, dataType: symbolTable[lexemeTable[index+3].dataType]};
+                            symbolTable[lexemeTable[index+1].token] = { value: result.value, dataType: symbolTable[lexemeTable[index+3].dataType]};
                             return newIndex;
                         } else {
                             // TODO: error
@@ -135,8 +136,7 @@
             i+=1;
             while(i<lexemeTable.length){
                 if (lexemeTable[i].tokenType === 'MKAY'){
-                    symbolTable['IT'] = { value: str, dataType: 'STRING_LITERAL' };
-                    return i;
+                    return {value: str, index: i};
                 }
                 else if (lexemeTable[i].tokenType === 'AN'){
                     i+=1;
@@ -187,12 +187,14 @@
             else if (lexemeTable[index+1].tokenType==='WIN' || lexemeTable[index+1].tokenType==='FAIL' ) {
                 $scope.terminal = $scope.terminal + lexemeTable[index+1].token + '\n';
             } else if (lexemeTable[index+1].tokenType==='ARITHMETIC_OPERATOR') {
-                result =  arithmetic(lexemeTable, symbolTable, index+1);
+                let result =  arithmetic(lexemeTable, symbolTable, index+1);
+                index = result.index;
                 $scope.terminal = $scope.terminal + result.value + '\n';
                 return index;
             } else if (lexemeTable[index+1].tokenType==='SMOOSH') {
-                index = smoosh(lexemeTable, symbolTable, index+1);
-                $scope.terminal = $scope.terminal + symbolTable['IT'].value + '\n';
+                let result = smoosh(lexemeTable, symbolTable, index+1);
+                index = result.index;
+                $scope.terminal = $scope.terminal + result.value + '\n';
                 return index;
             }
 
@@ -235,7 +237,12 @@
                     i = initialize(lexemeTable, symbolTable, i);
                 }
                 else if (lexemeTable[i].tokenType === 'SMOOSH') {
-                    i = smoosh(lexemeTable, symbolTable, i);
+                    let result = smoosh(lexemeTable, symbolTable, i);
+
+                    if (result.index !== -1)
+                        symbolTable['IT'] = {value: result.value, dataType: "YARN"};
+
+                    i = result.index;
                 }
                 else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
                     let result = arithmetic(lexemeTable, symbolTable, i);
