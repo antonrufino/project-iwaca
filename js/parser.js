@@ -192,19 +192,20 @@
         }
 
         function assign(lexemeTable, symbolTable, index) {
-             if(lexemeTable[index].tokenType==='IDENTIFIER'){
-                if(lexemeTable[index+1].tokenType==='R'){
-                    if(lexemeTable[index+2].tokenType==='INTEGER_LITERAL'){
-                        symbolTable[lexemeTable[index].token] = { value: parseInt(lexemeTable[index+2].token), dataType: lexemeTable[index+2].tokenType};
-                    } else if (lexemeTable[index+2].tokenType==='FLOATING_POINT_LITERAL') {
-                        symbolTable[lexemeTable[index].token] = { value: parseFloat(lexemeTable[index+2].token), dataType: lexemeTable[index+2].tokenType};
-                    } else if(lexemeTable[index+2].tokenType==='STRING_LITERAL'){
-                        symbolTable[lexemeTable[index].token] = { value: lexemeTable[index+2].token + lexemeTable[index+3].token + lexemeTable[index+3].token, dataType: lexemeTable[index+3].tokenType};
-                    } else if (lexemeTable[index+2].tokenType==='WIN' || lexemeTable[index+2].tokenType==='FAIL') {
-                        symbolTable[lexemeTable[index].token] = { value: lexemeTable[index+2].token, dataType: lexemeTable[index+2].tokenType};
-                    }
+             if(lexemeTable[index-1].tokenType==='IDENTIFIER'){
+                if(lexemeTable[index+1].tokenType==='INTEGER_LITERAL'){
+                    symbolTable[lexemeTable[index-1].token] = { value: parseInt(lexemeTable[index+1].token), dataType: lexemeTable[index+1].tokenType};
+                } else if (lexemeTable[index+1].tokenType==='FLOATING_POINT_LITERAL') {
+                    symbolTable[lexemeTable[index-1].token] = { value: parseFloat(lexemeTable[index+1].token), dataType: lexemeTable[index+1].tokenType};
+                } else if(lexemeTable[index+2].tokenType==='STRING_LITERAL'){
+                    symbolTable[lexemeTable[index-1].token] = { value: lexemeTable[index+2].token, dataType: lexemeTable[index+2].tokenType};
+                } else if (lexemeTable[index+1].tokenType==='WIN' || lexemeTable[index+1].tokenType==='FAIL') {
+                    symbolTable[lexemeTable[index-1].token] = { value: lexemeTable[index+1].token, dataType: lexemeTable[index+1].tokenType};
+                } else if (lexemeTable[index+1].tokenType==='IDENTIFIER') {
+                    symbolTable[lexemeTable[index-1].token] = { value: symbolTable[lexemeTable[index+1].token].value, dataType: symbolTable[lexemeTable[index+1].token].dataType};
                 }
             }
+            return index;
         }
 
         function gimmeh(lexemeTable, symbolTable, index) {
@@ -234,6 +235,9 @@
                 }
                 else if (lexemeTable[i].tokenType === 'VISIBLE') {
                     i = visible(lexemeTable, symbolTable, $scope, i);
+                }
+                else if (lexemeTable[i].tokenType === 'R') {
+                    i = assign(lexemeTable, symbolTable, i);
                 }                
                 else if (lexemeTable[i].tokenType === 'GIMMEH') {
                     let result = gimmeh(lexemeTable, symbolTable, i);
