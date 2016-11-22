@@ -246,6 +246,14 @@
                     symbolTable[lexemeTable[index-1].token] = { value: lexemeTable[index+1].token, dataType: lexemeTable[index+1].tokenType};
                 } else if (lexemeTable[index+1].tokenType==='IDENTIFIER') {
                     symbolTable[lexemeTable[index-1].token] = { value: symbolTable[lexemeTable[index+1].token].value, dataType: symbolTable[lexemeTable[index+1].token].dataType};
+                } else if (lexemeTable[index+1].tokenType==='ARITHMETIC_OPERATOR') {
+                    let result = arithmetic(lexemeTable, symbolTable, index+1);
+                    symbolTable[lexemeTable[index-1].token] = { value: result.value, dataType: 'NUMBR'};
+                    return result.index;
+                } else if (lexemeTable[index+1].tokenType==='SMOOSH') {
+                    let result = smoosh(lexemeTable, symbolTable, index+1);
+                    symbolTable[lexemeTable[index-1].token] = { value: result.value, dataType: 'YARN'};
+                    return result.index;
                 }
             }
             return index;
