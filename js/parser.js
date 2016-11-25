@@ -273,7 +273,48 @@
             return {pendingVar: null, index: -1};
         }
 
-        return (lexemeTable, symbolTable, start, $scope) => {
+        function wtf(lexemeTable, symbolTable, i, $scope) {
+            i += 1;
+            while (i < lexemeTable.length) {
+                if (lexemeTable[i].tokenType === 'OMG') {
+                    let caseValue;
+                    let start;
+
+                    if (lexemeTable[i+1].tokenType === 'INTEGER_LITERAL') {
+                        caseValue = parseInt(lexemeTable[i+1].token);
+                        start = i+1;
+                    } else if (lexemeTable[i+1].tokenType === 'FLOATING_POINT_LITERAL') {
+                        caseValue = parseFloat(lexemeTable[i+1].token);
+                        start = i+1;
+                    } else if (lexemeTable[i+2].tokenType === 'STRING_LITERAL') {
+                        caseValue = lexemeTable[i+2].token;
+                        start = i+3;
+                    } else if (lexemeTable[i+1].tokenType === 'WIN') {
+                        caseValue = lexemeTable[i+1].token;
+                        start = i+1;
+                    } else if (lexemeTable[i+1].tokenType === 'FAIL') {
+                        caseValue = lexemeTable[i+1].token;
+                        start = i+1;
+                    }
+
+                    if (symbolTable['IT'].value === caseValue) {
+                        console.log(symbolTable['IT'].value);
+                        console.log(caseValue);
+                        return start;
+                    } else {
+                        i += 1;
+                    }
+                } else if (lexemeTable[i].tokenType === 'OMGWTF') {
+                    return i;
+                } else if (lexemeTable[i].tokenType === 'OIC') {
+                    return i;
+                } else {
+                    i += 1;
+                }
+            }
+        }
+
+        function parse(lexemeTable, symbolTable, start, $scope) {
             for (let i = start; i < lexemeTable.length; i++) {
                 if (lexemeTable[i].tokenType === 'I_HAS_A') {
                     i = initialize(lexemeTable, symbolTable, i);
@@ -308,6 +349,14 @@
                         $('#enter').attr('disabled', false);
                         return result;
                     }
+                } else if (lexemeTable[i].tokenType === 'WTF?') {
+                    i = wtf(lexemeTable, symbolTable, i, $scope);
+                } else if (lexemeTable[i].tokenType === 'GTFO') {
+                    for (; i < lexemeTable.length; ++i) {
+                        if (lexemeTable[i].tokenType === 'OIC') return i
+                    }
+                } else if (lexemeTable[i].tokenType === 'OIC') {
+                    return i;
                 }
 
                 if (i === -1) {
@@ -320,5 +369,7 @@
 
             return null;
         }
+
+        return parse;
     });
 })();
