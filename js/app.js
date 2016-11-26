@@ -21,6 +21,7 @@
                 $scope.terminal = '';
 
                 lexer($scope.sourceCode, $scope.lexemeTable);
+                $scope.symbolTable['IT'] = {value: null, dataType: 'NOOB'};
                 $scope.interpret();
             }
 

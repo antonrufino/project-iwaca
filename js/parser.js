@@ -353,10 +353,10 @@
                     i = wtf(lexemeTable, symbolTable, i, $scope);
                 } else if (lexemeTable[i].tokenType === 'GTFO') {
                     for (; i < lexemeTable.length; ++i) {
-                        if (lexemeTable[i].tokenType === 'OIC') return i
+                        if (lexemeTable[i].tokenType === 'OIC') break
                     }
                 } else if (lexemeTable[i].tokenType === 'OIC') {
-                    return i;
+                    continue;
                 }
 
                 if (i === -1) {
