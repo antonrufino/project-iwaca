@@ -3,20 +3,25 @@
     .factory('parser', () => {
         function arithmetic(lexemeTable, symbolTable, i) {
             let expr = [];
-            let hasFloat = false;
 
             while (i < lexemeTable.length) {
                 if (lexemeTable[i].tokenType === 'INTEGER_LITERAL') {
-                    expr.push(parseInt(lexemeTable[i].token));
+                    expr.push({value: parseInt(lexemeTable[i].token), dataType: 'NUMBR'});
                     if (i + 1 >= lexemeTable.length ||
                         lexemeTable[i + 1].tokenType !== 'AN') break;
                 } else if (lexemeTable[i].tokenType === 'FLOATING_POINT_LITERAL') {
-                    expr.push(parseFloat(lexemeTable[i].token))
+                    expr.push({value: parseFloat(lexemeTable[i].token), dataType: 'NUMBAR'})
                     if (i + 1 >= lexemeTable.length ||
                         lexemeTable[i + 1].tokenType !== 'AN') break;
-
-                    hasFloat = true;
-                } else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
+                } else if (lexemeTable[i].tokenType === 'WIN') {
+                    expr.push({value: true, dataType: 'TROOF'})
+                    if (i + 1 >= lexemeTable.length ||
+                        lexemeTable[i + 1].tokenType !== 'AN') break;
+                } else if (lexemeTable[i].tokenType === 'FAIL') {
+                    expr.push({value: false, dataType: 'TROOF'})
+                    if (i + 1 >= lexemeTable.length ||
+                        lexemeTable[i + 1].tokenType !== 'AN') break;
+                } else if (lexemeTable[i].tokenType === 'OPERATOR') {
                     expr.push(lexemeTable[i].token);
                 } else if (lexemeTable[i].tokenType === 'AN') {
                     i += 1;
@@ -25,28 +30,28 @@
                     let descriptor = symbolTable[lexemeTable[i].token];
 
                     if (descriptor !== undefined) {
-                        if (typeof descriptor.value === 'string') {
-                            let result = parseInt(descriptor.value);
-                            if (result === NaN) {
-                                result = parseFloat(descriptor.value);
-                                if (result === NaN) {
-                                    return {value: null, index: -1};
-                                } else {
-                                    expr.push(result);
-                                }
+                        if (descriptor.dataType === 'YARN') {
+                            console.log('hello');
+                            let result;
+                            if (descriptor.value.indexOf('.') !== -1) {
+                                result = {value: parseFloat(descriptor.value), dataType: 'NUMBAR'};
+                            } else {
+                                result = {value: parseInt(descriptor.value), dataType: 'NUMBR'};
+                            }
 
-                                hasFloat = true;
+                            console.log(result);
+
+                            if (result === NaN) {
+                                return {value: null, index: -1};
                             } else {
                                 expr.push(result);
-                                if (descriptor.value.indexOf('.') !== -1) {
-                                    hasFloat = true;
-                                }
                             }
+                        } else if (descriptor.dataType === 'TROOF') {
+                            expr.push({value: descriptor.value === 'WIN', dataType: 'TROOF'})
+                            if (i + 1 >= lexemeTable.length ||
+                                lexemeTable[i + 1].tokenType !== 'AN') break;
                         } else {
-                            expr.push(descriptor.value);
-                            if (descriptor.dataType === 'NUMBAR') {
-                                hasFloat = true;
-                            }
+                            expr.push(descriptor);
                         }
                     }
                     else {
@@ -60,23 +65,22 @@
                     lexemeTable[i+1].tokenType === 'STRING_LITERAL' ) {
                     i += 1;
 
-                    let result = parseInt(lexemeTable[i].token);
+                    let result;
+                    if (lexemeTable[i].token.indexOf('.') !== -1) {
+                        result = {value: parseFloat(lexemeTable[i].token), dataType: 'NUMBAR'};
+                    } else {
+                        result = {value: parseInt(lexemeTable[i].token), dataType: 'NUMBR'};
+                    }
+
                     if (result === NaN) {
-                        result = parseFloat(lexemeTable[i].token);
-                        if (result === NaN) {
-                            return {value: null, index: -1};
-                        } else {
-                            expr.push(result);
-                            hasFloat = true;
-                        }
+                        return {value: null, index: -1};
                     } else {
                         expr.push(result);
-                        if (lexemeTable[i].token.indexOf('.') !== -1) {
-                            hasFloat = true;
-                        }
                     }
 
                     i += 1;
+                } else if (lexemeTable[i].tokenType === 'MKAY') {
+                    break;
                 } else {
                     // TODO: error
                     console.log("Invalid token");
@@ -93,29 +97,85 @@
                 if (e === 'SUM OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
-                    stack.push(op1 + op2);
+                    stack.push({value: op1.value + op2.value, dataType: dataType});
                 } else if (e === 'DIFF OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
-                    stack.push(op1 - op2);
+                    stack.push({value: op1.value - op2.value, dataType: dataType});
                 } else if (e === 'PRODUKT OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
-                    stack.push(op1 * op2);
+                    stack.push({value: op1.value * op2.value, dataType: dataType});
                 } else if (e === 'QUOSHUNT OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
-                    stack.push(op1 / op2);
+                    stack.push({value: op1.value / op2.value, dataType: dataType});
                 } else if (e === 'MOD OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
-                    stack.push(op1 % op2);
-                } else if (typeof e === 'number') {
+                    stack.push({value: op1.value % op2.value, dataType: dataType});
+                } else if (e === 'BOTH OF') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+
+                    stack.push({value: op1.value && op2.value, dataType: 'TROOF'});
+                } else if (e === 'EITHER OF') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+
+                    stack.push({value: op1.value || op2.value, dataType: 'TROOF'});
+                } else if (e === 'WON OF') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+                    let result = (!op1.value && op2.value) || (op1.value && !op2.value);
+
+                    stack.push({value: result, dataType: 'TROOF'});
+                } else if (e === 'NOT') {
+                    let op = stack.pop();
+                    stack.push({value: !op.value, dataType: 'TROOF'});
+                } else if (e === 'ALL OF') {
+                    let result = true;
+                    while (stack.length > 0) {
+                        let op = stack.pop();
+                        if (!op.value) {
+                            stack = [];
+                            result = false;
+                        }
+                    }
+                    stack.push({value: result, dataType: 'TROOF'})
+                } else if (e === 'ANY OF') {
+                    let result = false;
+                    while (stack.length > 0) {
+                        let op = stack.pop();
+                        if (op.value) {
+                            stack = [];
+                            result = true;
+                        }
+                    }
+                    stack.push({value: result, dataType: 'TROOF'})
+                } else if (e === 'BOTH SAEM') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+                    let result = op1.dataType === op2.dataType && op1.value === op2.value;
+
+                    stack.push({value: result, dataType: 'TROOF'});
+                } else if (e === 'DIFFRINT') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+                    let result = op1.dataType === op2.dataType && op1.value !== op2.value;
+
+                    stack.push({value: result, dataType: 'TROOF'});
+                } else if (typeof e === 'object') {
                     stack.push(e);
                 } else {
                     // TODO: error
@@ -130,7 +190,11 @@
                 return {value: null, index: -1};
             }
 
-            return {value: stack.pop(), index: i, dataType: hasFloat ? "NUMBAR" : "NUMBR"};
+            let result = stack.pop();
+            if (result.dataType === 'TROOF') {
+                result.value = result.value ? "WIN" : "FAIL"
+            }
+            return {value: result.value, index: i, dataType: result.dataType};
         }
 
         function initialize(lexemeTable, symbolTable, index) {
@@ -243,7 +307,7 @@
             }
             else if (lexemeTable[index+1].tokenType==='WIN' || lexemeTable[index+1].tokenType==='FAIL' ) {
                 $scope.terminal = $scope.terminal + lexemeTable[index+1].token + '\n';
-            } else if (lexemeTable[index+1].tokenType==='ARITHMETIC_OPERATOR') {
+            } else if (lexemeTable[index+1].tokenType==='OPERATOR') {
                 let result =  arithmetic(lexemeTable, symbolTable, index+1);
                 index = result.index;
                 $scope.terminal = $scope.terminal + result.value + '\n';
@@ -351,7 +415,7 @@
 
                     i = result.index;
                 }
-                else if (lexemeTable[i].tokenType === 'ARITHMETIC_OPERATOR') {
+                else if (lexemeTable[i].tokenType === 'OPERATOR') {
                     let result = arithmetic(lexemeTable, symbolTable, i);
 
                     if (result.index !== -1)
@@ -387,8 +451,6 @@
                     console.log('ERROR!');
                     break;
                 }
-
-                console.log("kkek");
             }
 
             return null;
