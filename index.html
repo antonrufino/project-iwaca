@@ -118,12 +118,14 @@
                                 <tr class="red darken-3">
                                     <th data-field="id">Identifier</th>
                                     <th data-field="name">Value</th>
+                                    <th data-field="data-type">Data Type</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="(identifier, value) in symbolTable">
                                     <td>{{identifier}}</td>
                                     <td>{{value.value}}</td>
+                                    <td>{{value.dataType}}</td>
                                 </tr>
                             </tbody>
                         </table>
