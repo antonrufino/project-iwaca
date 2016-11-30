@@ -369,7 +369,7 @@
                     let caseValue;
                     let start;
 
-                    if (lexemeTable[i+1].tokenType === 'INTEGER_LITERAL')
+                    if (lexemeTable[i+1].tokenType === 'INTEGER_LITERAL') {
                         caseValue = parseInt(lexemeTable[i+1].token);
                         start = i+1;
                     } else if (lexemeTable[i+1].tokenType === 'FLOATING_POINT_LITERAL') {
