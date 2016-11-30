@@ -3,6 +3,7 @@
     .factory('parser', () => {
         function arithmetic(lexemeTable, symbolTable, i) {
             let expr = [];
+            let hasFloat = false;
 
             while (i < lexemeTable.length) {
                 if (lexemeTable[i].tokenType === 'INTEGER_LITERAL') {
@@ -41,7 +42,7 @@
 
                             console.log(result);
 
-                            if (result === NaN) {
+                            if (result.value === NaN) {
                                 return {value: null, index: -1};
                             } else {
                                 expr.push(result);
@@ -368,7 +369,7 @@
                     let caseValue;
                     let start;
 
-                    if (lexemeTable[i+1].tokenType === 'INTEGER_LITERAL') {
+                    if (lexemeTable[i+1].tokenType === 'INTEGER_LITERAL')
                         caseValue = parseInt(lexemeTable[i+1].token);
                         start = i+1;
                     } else if (lexemeTable[i+1].tokenType === 'FLOATING_POINT_LITERAL') {
@@ -400,6 +401,31 @@
                     i += 1;
                 }
             }
+        }
+
+        function if_else(lexemeTable, symbolTable, i) {
+            if(symbolTable['IT'].value === 'WIN'){
+                console.log('Win Detected');
+                while(lexemeTable[i].tokenType !== 'YA_RLY'){
+                    if(lexemeTable[i].tokenType === 'NO_WAI') {
+                        return i;
+                    }
+                     i +=1;
+                     console.log(i);
+                }
+                return i;
+            } else if(symbolTable['IT'].value === 'FAIL'){
+                console.log('Fail Detected');
+               while(lexemeTable[i].tokenType !== 'NO_WAI'){
+                    if (lexemeTable[i].tokenType === 'OIC') {
+                        return i;
+                    }
+                    i += 1;
+                }
+                return i;
+
+            }
+
         }
 
         function parse(lexemeTable, symbolTable, start, $scope) {
@@ -436,6 +462,13 @@
                         $('#input').attr('disabled', false);
                         $('#enter').attr('disabled', false);
                         return result;
+                    }
+                } else if (lexemeTable[i].tokenType === 'O_RLY?'){
+                    i = if_else(lexemeTable, symbolTable, i);
+
+                }  else if (lexemeTable[i].tokenType === 'NO_WAI') {
+                    for (; i < lexemeTable.length; ++i) {
+                        if (lexemeTable[i].tokenType === 'OIC') break
                     }
                 } else if (lexemeTable[i].tokenType === 'WTF?') {
                     i = wtf(lexemeTable, symbolTable, i, $scope);
