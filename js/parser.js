@@ -113,7 +113,7 @@
                     let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
                     stack.push({value: op1.value * op2.value, dataType: dataType});
-                } else if (e === 'QUOSHUNT OF') {
+                }  else if (e === 'QUOSHUNT OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
                     let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
@@ -125,6 +125,18 @@
                     let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
 
                     stack.push({value: op1.value % op2.value, dataType: dataType});
+                } else if (e === 'BIGGR OF') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
+
+                    stack.push({value: op1.value > op2.value ? op1.value : op2.value, dataType: dataType});
+                } else if (e === 'SMALLR OF') {
+                    let op1 = stack.pop();
+                    let op2 = stack.pop();
+                    let dataType = op1.dataType === 'NUMBAR' || op2.dataType === 'NUMBAR' ? 'NUMBAR' : 'NUMBR';
+
+                    stack.push({value: op1.value < op2.value ? op1.value : op2.value, dataType: dataType});
                 } else if (e === 'BOTH OF') {
                     let op1 = stack.pop();
                     let op2 = stack.pop();
@@ -311,7 +323,12 @@
             } else if (lexemeTable[index+1].tokenType==='OPERATOR') {
                 let result =  arithmetic(lexemeTable, symbolTable, index+1);
                 index = result.index;
-                $scope.terminal = $scope.terminal + result.value + '\n';
+                $scope.terminal = $scope.terminal + result.value;
+                console.log(result)
+                if (result.dataType == 'NUMBAR' && Number.isInteger(result.value)) {
+                    $scope.terminal = $scope.terminal + '.0';
+                }
+                $scope.terminal = $scope.terminal + '\n';
                 return index;
             } else if (lexemeTable[index+1].tokenType==='SMOOSH') {
                 let result = smoosh(lexemeTable, symbolTable, index+1);
