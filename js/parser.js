@@ -225,7 +225,7 @@
                         if(symbolTable[lexemeTable[index+3].token] !== undefined){
                             symbolTable[lexemeTable[index+1].token] = { value: symbolTable[lexemeTable[index+3].token].value, dataType: symbolTable[lexemeTable[index+3].dataType]};
                         }
-                    } else if (lexemeTable[index+3].tokenType==='ARITHMETIC_OPERATOR') {
+                    } else if (lexemeTable[index+3].tokenType==='OPERATOR') {
                         let result = arithmetic(lexemeTable, symbolTable, index+3);
                         let newIndex = result.index;
                         if (newIndex!==-1) {
@@ -332,6 +332,7 @@
                 return index;
             } else if (lexemeTable[index+1].tokenType==='SMOOSH') {
                 let result = smoosh(lexemeTable, symbolTable, index+1);
+                console.log(result);
                 index = result.index;
                 $scope.terminal = $scope.terminal + result.value + '\n';
                 return index;
@@ -342,6 +343,7 @@
 
         function assign(lexemeTable, symbolTable, index) {
              if(lexemeTable[index-1].tokenType==='IDENTIFIER'){
+                console.log(lexemeTable[index-1].token)
                 if(lexemeTable[index+1].tokenType==='INTEGER_LITERAL'){
                     symbolTable[lexemeTable[index-1].token] = { value: parseInt(lexemeTable[index+1].token), dataType: 'NUMBR'};
                 } else if (lexemeTable[index+1].tokenType==='FLOATING_POINT_LITERAL') {
@@ -352,7 +354,7 @@
                     symbolTable[lexemeTable[index-1].token] = { value: lexemeTable[index+1].token, dataType: 'TROOF'};
                 } else if (lexemeTable[index+1].tokenType==='IDENTIFIER') {
                     symbolTable[lexemeTable[index-1].token] = { value: symbolTable[lexemeTable[index+1].token].value, dataType: symbolTable[lexemeTable[index+1].token].dataType};
-                } else if (lexemeTable[index+1].tokenType==='ARITHMETIC_OPERATOR') {
+                } else if (lexemeTable[index+1].tokenType==='OPERATOR') {
                     let result = arithmetic(lexemeTable, symbolTable, index+1);
                     symbolTable[lexemeTable[index-1].token] = { value: result.value, dataType: result.dataType};
                     return result.index;

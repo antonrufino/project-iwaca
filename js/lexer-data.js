@@ -1,8 +1,8 @@
 const lexerData = [
     {tokenType: 'HAI', tokenRegEx: /^HAI/g, classification: 'Code delimiter'},
     {tokenType: 'KTHXBYE', tokenRegEx: /^KTHXBYE/g, classification: 'Code delimiter'},
+    {tokenType: ['', 'COMMENT_DELIMITER', 'COMMENT_TEXT', 'COMMENT_DELIMITER'], tokenRegEx: /^(OBTW)((?:.|\n)*)(TLDR)/gm, classification: ['', 'Comment delimiter', 'Comment text', 'Comment delimiter']},
     {tokenType: ['', 'COMMENT_DELIMITER', 'COMMENT_TEXT'], tokenRegEx: /^(BTW) ([^\n]*)/g, classification: ['', 'Comment delimiter', 'Comment text']},
-    {tokenType: ['', 'COMMENT_DELIMITER', 'COMMENT_TEXT', 'COMMENT_DELIMITER'], tokenRegEx: /^(OBTW) (.*) (TLDR)/g, classification: ['', 'Comment delimiter', 'Comment text', 'Comment delimiter']},
     {tokenType: ['', 'STRING_DELIMITER', 'STRING_LITERAL', 'STRING_DELIMITER'], tokenRegEx: /^(")([^"]*)(")/g, classification: ['', 'String delimiter', 'String literal', 'String delimiter']},
     {tokenType: 'NEW_LINE', tokenRegEx: /^\n/g, classification: 'Statement delimiter'},
     {tokenType: 'I_HAS_A', tokenRegEx: /^I HAS A/g, classification: 'Variable declaration delimiter'},
